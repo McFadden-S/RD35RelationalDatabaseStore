@@ -30,6 +30,7 @@ public class Main {  // begin class
 	// ***** create objects *****
         
         Controller control = new Controller();
+        LogIn loginUI = new LogIn();
         
 	// ***** Print Banner *****
 	
@@ -42,7 +43,10 @@ public class Main {  // begin class
 	// ***** processing *****
 	
 		control.establishConnection(url, user, pass);
-
+                loginUI.setController(control);
+                loginUI.setVisible(true);
+                
+                
 	// ***** closing message *****
 	
 		System.out.println("end of set up");

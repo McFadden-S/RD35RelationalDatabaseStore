@@ -1,3 +1,8 @@
+
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -28,12 +33,24 @@ public class LogIn extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLayeredPane1 = new javax.swing.JLayeredPane();
         loginButton = new javax.swing.JButton();
         titleLabel = new javax.swing.JLabel();
         usernameLabel = new javax.swing.JLabel();
         usernameText = new javax.swing.JTextField();
         passwordLabel = new javax.swing.JLabel();
         passwordText = new javax.swing.JTextField();
+
+        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
+        jLayeredPane1.setLayout(jLayeredPane1Layout);
+        jLayeredPane1Layout.setHorizontalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jLayeredPane1Layout.setVerticalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,11 +114,27 @@ public class LogIn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        boolean validated = false;
         String user = usernameText.getText();
         String pass = passwordText.getText();
         
+        try {
+            validated = controller.validateLogin(user, pass);
+        } catch (SQLException ex) {
+            System.out.println("SQL EXCEPTION IN LOG IN VALIDATION");
+        }//end of catch
         
-        
+        if (validated) {
+            System.out.println("Log In Successful");
+            this.setVisible(false);
+            
+        }//end of if log in successful
+        else{
+            System.out.println("Log in Failed");
+            usernameText.setText("");
+            passwordText.setText("");
+            loginButton.setText("Log In Failed Try Again");
+        }//end of if unsuccesful
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
@@ -149,6 +182,7 @@ public class LogIn extends javax.swing.JFrame {
     }//end of setController
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel passwordLabel;
     private javax.swing.JTextField passwordText;

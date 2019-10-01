@@ -23,7 +23,9 @@ import java.util.logging.Logger;
 
     // ********** instance variable **********
 
-     Connection connection;
+     private Connection connection; 
+     private boolean loginVerified = false;
+     private String currentUser = "";
      
     // ********** constructors ***********
 
@@ -55,6 +57,26 @@ import java.util.logging.Logger;
         
     }//end of establishConnection
  
+    /*
+    Purpose: Checks to see if store login information is valid
+    In: username and password as a string
+    Out: Boolean for if its valid 
+    */
+    public boolean validateLogin(String user, String pass) throws SQLException{
+        Statement stmt = connection.createStatement();
+        
+        String query = "select username password from user where username = \"" 
+                + user + "\" and password = \"" + pass + "\"";
+        
+        ResultSet rs =  stmt.executeQuery(query); //executes SQL
+        
+        if (rs.absolute(1)){ //true if object has a row ie. query found matching values
+            loginVerified = true;
+            currentUser = user;
+        }//end of if
+        
+        return loginVerified;
+    }//end of validateLogin
     
-    
+
  }  // end class
