@@ -9,7 +9,9 @@
  * @author shaemcfadden
  */
 public class LogIn extends javax.swing.JFrame {
-
+    
+    private Controller controller;
+    
     /**
      * Creates new form LogIn
      */
@@ -26,21 +28,81 @@ public class LogIn extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        loginButton = new javax.swing.JButton();
+        titleLabel = new javax.swing.JLabel();
+        usernameLabel = new javax.swing.JLabel();
+        usernameText = new javax.swing.JTextField();
+        passwordLabel = new javax.swing.JLabel();
+        passwordText = new javax.swing.JTextField();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        loginButton.setText("Log In");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
+
+        titleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 16)); // NOI18N
+        titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titleLabel.setText("Store Log In");
+        titleLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        usernameLabel.setText("Username");
+
+        passwordLabel.setText("Password");
+
+        passwordText.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                    .addComponent(usernameText)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(usernameLabel)
+                            .addComponent(passwordLabel))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(passwordText))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(loginButton)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(usernameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(usernameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(passwordLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwordText, javax.swing.GroupLayout.PREFERRED_SIZE, 21, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(loginButton)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        String user = usernameText.getText();
+        String pass = passwordText.getText();
+        
+        
+        
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -77,6 +139,21 @@ public class LogIn extends javax.swing.JFrame {
         });
     }
 
+    /*
+    Purpose: set the UI's controller
+    In: Object to be set as the controller
+    Out: none
+    */
+    public void setController(Controller c){
+        controller = c;
+    }//end of setController
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton loginButton;
+    private javax.swing.JLabel passwordLabel;
+    private javax.swing.JTextField passwordText;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JLabel usernameLabel;
+    private javax.swing.JTextField usernameText;
     // End of variables declaration//GEN-END:variables
 }
