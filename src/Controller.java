@@ -85,4 +85,51 @@ import java.util.logging.Logger;
         loginVerified = false;
     }//end of logout
     
+    /*
+    Purpose: get the number of products offered by database
+    In: true for offered, false for in cart
+    Out: (int) number of products 
+    */
+    public int getNumberofProducts(boolean control) throws SQLException{
+        int num = 0;
+        Statement stmt = connection.createStatement();
+        String query;
+        ResultSet rs;
+        
+        if(control){
+            query = "select idProducts from Products";
+            rs = stmt.executeQuery(query);
+            rs.last();
+            num=rs.getRow();
+        }//end of if offered
+        else{
+            query = "select idCart from Cart";
+            rs = stmt.executeQuery(query);
+            rs.last();
+            num=rs.getRow();
+        }//end of else in cart
+        
+        return num;
+    }//end of number of products
+    
+    /*
+    Purpose: Sends a string array with the information for each product
+    In: none
+    Out: String[] product info
+    */
+    public String[] getProductInfo(int numOfProd) throws SQLException{
+        String[] info = new String[numOfProd]; 
+        
+        Statement stmt = connection.createStatement();
+        String query = "select idProducts, name from Products";
+        ResultSet rs = stmt.executeQuery(query);
+        
+        for(int i = 0; i < info.length; i++){ 
+           rs.absolute(i+1);
+           info[i]=rs.getInt(1) + ": " +rs.getString(2);
+        }//end of for loop
+            
+        return info;
+    }//end of getProductInfo
+    
  }  // end class

@@ -127,6 +127,11 @@ public class LogIn extends javax.swing.JFrame {
             System.out.println("LOG IN SUCCESSFUL");
             loginButton.setText("Log In");
             this.setVisible(false);
+            try {
+                storeUI.Setup();
+            } catch (SQLException ex) {
+                System.out.println("STORE SET UP FAILED");
+            }//end of catch set up failed
             storeUI.setVisible(true);
         }//end of if log in successful
         else{

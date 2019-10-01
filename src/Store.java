@@ -1,8 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+import java.sql.SQLException;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -12,6 +10,7 @@ public class Store extends javax.swing.JFrame {
     
     private Controller controller;
     private LogIn loginUI;
+    private DefaultListModel productListModel = new DefaultListModel();
     
     /**
      * Creates new form Store
@@ -40,6 +39,7 @@ public class Store extends javax.swing.JFrame {
         selectButton = new javax.swing.JButton();
         addCartButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         cartPane = new javax.swing.JPanel();
         removeCartButton = new javax.swing.JButton();
         purchaseButton = new javax.swing.JButton();
@@ -63,6 +63,7 @@ public class Store extends javax.swing.JFrame {
         productLabel.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         productLabel.setText("Products");
 
+        displayList.setModel(productListModel);
         displayList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(displayList);
 
@@ -73,6 +74,9 @@ public class Store extends javax.swing.JFrame {
         addCartButton.setText("Add To Cart");
 
         backButton.setText("Back");
+        backButton.setEnabled(false);
+
+        jButton1.setText("Refresh");
 
         javax.swing.GroupLayout storePaneLayout = new javax.swing.GroupLayout(storePane);
         storePane.setLayout(storePaneLayout);
@@ -83,11 +87,12 @@ public class Store extends javax.swing.JFrame {
                 .addGroup(storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(storePaneLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGap(18, 18, 18)
+                        .addGroup(storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(selectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(addCartButton, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)))
+                            .addComponent(addCartButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(storePaneLayout.createSequentialGroup()
                         .addComponent(productLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -101,7 +106,8 @@ public class Store extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(storePaneLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(selectButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(backButton)
@@ -255,6 +261,16 @@ public class Store extends javax.swing.JFrame {
         loginUI = l;
     }//end of setLoginUI
     
+    /*
+    Purpose: set up lists in the store
+    In: None
+    Out: None
+    */
+    public void Setup() throws SQLException{
+        String[] pro = new String[controller.getNumberofProducts(true)];
+        pro = controller.getProductInfo(pro.length);
+    }//end of set up
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accountPane;
     private javax.swing.JButton addCartButton;
@@ -262,6 +278,7 @@ public class Store extends javax.swing.JFrame {
     private javax.swing.JList<String> cartList;
     private javax.swing.JPanel cartPane;
     private javax.swing.JList<String> displayList;
+    private javax.swing.JButton jButton1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
