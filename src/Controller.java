@@ -132,4 +132,42 @@ import java.util.logging.Logger;
         return info;
     }//end of getProductInfo
     
+    /*
+    Purpose: get the number of columns offered by table in database
+    In: table title
+    Out: (int) number of columns
+    */
+    public int getNumberofColumns(String table) throws SQLException{
+        int num = 0;
+        
+        Statement stmt = connection.createStatement();
+        String query = "select count(*) from " + table;
+        ResultSet rs = stmt.executeQuery(query);
+        
+        rs.absolute(1);
+        num=rs.getInt(1);
+        
+        return num;
+    }//end of number of columns 
+    
+    /*
+    Purpose: Sends a string array with the information for a item
+    In: none
+    Out: String[] product info
+    */
+    public String[] getItemInfo(int numOfCol, int itemID) throws SQLException{
+        String[] info = new String[numOfCol]; 
+        
+        Statement stmt = connection.createStatement();
+        String query = "select * from Products where idProducts = \"" + itemID + "\"";
+        ResultSet rs = stmt.executeQuery(query);
+        rs.absolute(1);
+        
+        for(int i = 0; i < info.length; i++){ 
+           info[i]=rs.getMetaData().getColumnLabel(i+1) + ": " +rs.getString(i+1);
+        }//end of for loop
+            
+        return info;
+    }//end of getItemInfo
+    
  }  // end class

@@ -1,5 +1,7 @@
 
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 /**
@@ -10,8 +12,9 @@ public class Store extends javax.swing.JFrame {
     
     private Controller controller;
     private LogIn loginUI;
-    private DefaultListModel productListModel = new DefaultListModel();
-    
+    private DefaultListModel storeListModel = new DefaultListModel();
+    private boolean selected = false;
+    private String selectedItemId = "";
     /**
      * Creates new form Store
      */
@@ -39,7 +42,7 @@ public class Store extends javax.swing.JFrame {
         selectButton = new javax.swing.JButton();
         addCartButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        refreshButton = new javax.swing.JButton();
         cartPane = new javax.swing.JPanel();
         removeCartButton = new javax.swing.JButton();
         purchaseButton = new javax.swing.JButton();
@@ -63,20 +66,35 @@ public class Store extends javax.swing.JFrame {
         productLabel.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
         productLabel.setText("Products");
 
-        displayList.setModel(productListModel);
+        displayList.setModel(storeListModel);
         displayList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(displayList);
 
         jScrollPane2.setViewportView(jScrollPane1);
 
         selectButton.setText("Select");
+        selectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectButtonActionPerformed(evt);
+            }
+        });
 
         addCartButton.setText("Add To Cart");
 
         backButton.setText("Back");
         backButton.setEnabled(false);
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Refresh");
+        refreshButton.setText("Refresh");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout storePaneLayout = new javax.swing.GroupLayout(storePane);
         storePane.setLayout(storePaneLayout);
@@ -92,7 +110,7 @@ public class Store extends javax.swing.JFrame {
                             .addComponent(selectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(addCartButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(refreshButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(storePaneLayout.createSequentialGroup()
                         .addComponent(productLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -106,7 +124,7 @@ public class Store extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(storePaneLayout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(refreshButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(selectButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -208,6 +226,41 @@ public class Store extends javax.swing.JFrame {
         controller.logout();
     }//GEN-LAST:event_logoutButtonActionPerformed
 
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        if(!selected){
+            try {
+                this.loadProductList();
+            } catch (SQLException ex) {
+                System.out.println("REFRESH FAILED");
+            }
+        }//end of if not selected
+    }//GEN-LAST:event_refreshButtonActionPerformed
+
+    private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
+        //takes selected item and parses the id from it
+        int id = Integer.parseInt(displayList.getSelectedValue().split(":")[0]);
+        
+        try {
+            this.loadItemList(id);
+        } catch (SQLException ex) {
+            System.out.println("LOADING ITEM INFO FAILED");
+        }//end of catch
+        
+        backButton.setEnabled(true);
+        selectButton.setEnabled(false);
+    }//GEN-LAST:event_selectButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        try {
+            this.loadProductList();
+        } catch (SQLException ex) {
+            System.out.println("BACK BUTTON LOAD FAILED");
+        }
+        
+        backButton.setEnabled(false);
+        selectButton.setEnabled(true);
+    }//GEN-LAST:event_backButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -262,14 +315,38 @@ public class Store extends javax.swing.JFrame {
     }//end of setLoginUI
     
     /*
-    Purpose: set up lists in the store
+    Purpose: load product list in the store
     In: None
     Out: None
     */
-    public void Setup() throws SQLException{
+    public void loadProductList() throws SQLException{
+        storeListModel.removeAllElements();
+        
         String[] pro = new String[controller.getNumberofProducts(true)];
         pro = controller.getProductInfo(pro.length);
-    }//end of set up
+        
+        for(int i = 0; i < pro.length; i++){
+            storeListModel.addElement(pro[i]);
+        }//end of for loop
+        
+    }//end of loadProductList
+    
+    /*
+    Purpose: load item list in the store
+    In: int of itemID
+    Out: None
+    */
+    public void loadItemList(int itemID) throws SQLException{
+        storeListModel.removeAllElements();
+        
+        String[] item = new String[controller.getNumberofColumns("Products")];
+        item = controller.getItemInfo(item.length, itemID);
+        
+        for(int i = 0; i < item.length; i++){
+            storeListModel.addElement(item[i]);
+        }//end of for loop
+        
+    }//end of loaditemList
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accountPane;
@@ -278,7 +355,6 @@ public class Store extends javax.swing.JFrame {
     private javax.swing.JList<String> cartList;
     private javax.swing.JPanel cartPane;
     private javax.swing.JList<String> displayList;
-    private javax.swing.JButton jButton1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -287,6 +363,7 @@ public class Store extends javax.swing.JFrame {
     private javax.swing.JButton logoutButton;
     private javax.swing.JLabel productLabel;
     private javax.swing.JButton purchaseButton;
+    private javax.swing.JButton refreshButton;
     private javax.swing.JButton removeCartButton;
     private javax.swing.JButton selectButton;
     private javax.swing.JPanel storePane;
