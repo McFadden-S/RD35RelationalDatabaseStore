@@ -29,69 +29,178 @@ public class Store extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        tabPane = new javax.swing.JTabbedPane();
         storePane = new javax.swing.JPanel();
-        cartButton = new javax.swing.JButton();
+        productLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        displayList = new javax.swing.JList<>();
+        selectButton = new javax.swing.JButton();
+        addCartButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
+        cartPane = new javax.swing.JPanel();
+        removeCartButton = new javax.swing.JButton();
+        purchaseButton = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        cartList = new javax.swing.JList<>();
+        accountPane = new javax.swing.JPanel();
         logoutButton = new javax.swing.JButton();
+
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane3.setViewportView(jList1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Store");
 
         storePane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        cartButton.setText("Shopping Cart");
-        cartButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cartButtonActionPerformed(evt);
-            }
-        });
+        productLabel.setFont(new java.awt.Font("Lucida Grande", 0, 15)); // NOI18N
+        productLabel.setText("Products");
 
-        logoutButton.setText("Log Out");
+        displayList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane1.setViewportView(displayList);
+
+        jScrollPane2.setViewportView(jScrollPane1);
+
+        selectButton.setText("Select");
+
+        addCartButton.setText("Add To Cart");
+
+        backButton.setText("Back");
 
         javax.swing.GroupLayout storePaneLayout = new javax.swing.GroupLayout(storePane);
         storePane.setLayout(storePaneLayout);
         storePaneLayout.setHorizontalGroup(
             storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(storePaneLayout.createSequentialGroup()
-                .addContainerGap(396, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cartButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(storePaneLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(selectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addCartButton, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)))
+                    .addGroup(storePaneLayout.createSequentialGroup()
+                        .addComponent(productLabel)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         storePaneLayout.setVerticalGroup(
             storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, storePaneLayout.createSequentialGroup()
-                .addContainerGap(266, Short.MAX_VALUE)
-                .addComponent(cartButton)
+                .addContainerGap()
+                .addComponent(productLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(storePaneLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(selectButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(backButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(addCartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        tabPane.addTab("Store", storePane);
+
+        cartPane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        removeCartButton.setText("Remove From Cart");
+
+        purchaseButton.setText("Purchase");
+
+        jScrollPane4.setViewportView(cartList);
+
+        javax.swing.GroupLayout cartPaneLayout = new javax.swing.GroupLayout(cartPane);
+        cartPane.setLayout(cartPaneLayout);
+        cartPaneLayout.setHorizontalGroup(
+            cartPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cartPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(cartPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4)
+                    .addGroup(cartPaneLayout.createSequentialGroup()
+                        .addComponent(removeCartButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(purchaseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        cartPaneLayout.setVerticalGroup(
+            cartPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cartPaneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(cartPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(removeCartButton)
+                    .addComponent(purchaseButton))
+                .addContainerGap())
+        );
+
+        tabPane.addTab("Shopping Cart", cartPane);
+
+        accountPane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        logoutButton.setText("Log Out");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout accountPaneLayout = new javax.swing.GroupLayout(accountPane);
+        accountPane.setLayout(accountPaneLayout);
+        accountPaneLayout.setHorizontalGroup(
+            accountPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, accountPaneLayout.createSequentialGroup()
+                .addContainerGap(217, Short.MAX_VALUE)
                 .addComponent(logoutButton)
                 .addContainerGap())
         );
+        accountPaneLayout.setVerticalGroup(
+            accountPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, accountPaneLayout.createSequentialGroup()
+                .addContainerGap(214, Short.MAX_VALUE)
+                .addComponent(logoutButton)
+                .addContainerGap())
+        );
+
+        tabPane.addTab("Account", accountPane);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(storePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(storePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tabPane, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartButtonActionPerformed
-        storePane.setVisible(false);
-        
-    }//GEN-LAST:event_cartButtonActionPerformed
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        loginUI.setVisible(true);
+        this.setVisible(false);
+        controller.logout();
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -147,8 +256,23 @@ public class Store extends javax.swing.JFrame {
     }//end of setLoginUI
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton cartButton;
+    private javax.swing.JPanel accountPane;
+    private javax.swing.JButton addCartButton;
+    private javax.swing.JButton backButton;
+    private javax.swing.JList<String> cartList;
+    private javax.swing.JPanel cartPane;
+    private javax.swing.JList<String> displayList;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton logoutButton;
+    private javax.swing.JLabel productLabel;
+    private javax.swing.JButton purchaseButton;
+    private javax.swing.JButton removeCartButton;
+    private javax.swing.JButton selectButton;
     private javax.swing.JPanel storePane;
+    private javax.swing.JTabbedPane tabPane;
     // End of variables declaration//GEN-END:variables
 }

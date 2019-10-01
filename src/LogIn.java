@@ -125,15 +125,17 @@ public class LogIn extends javax.swing.JFrame {
         
         if (validated) {
             System.out.println("LOG IN SUCCESSFUL");
+            loginButton.setText("Log In");
             this.setVisible(false);
             storeUI.setVisible(true);
         }//end of if log in successful
         else{
             System.out.println("LOG IN FAILED");
-            usernameText.setText("");
-            passwordText.setText("");
             loginButton.setText("Log In Failed Try Again");
         }//end of if unsuccesful
+        
+        usernameText.setText("");
+        passwordText.setText("");
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**

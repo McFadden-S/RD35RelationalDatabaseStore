@@ -75,5 +75,14 @@ import java.util.logging.Logger;
         return loginVerified;
     }//end of validateLogin
     
+    /*
+    Purpose: reset saved values from log in
+    In: none
+    Out: none
+    */
+    public void logout(){
+        currentUser = "";
+        loginVerified = false;
+    }//end of logout
     
  }  // end class
