@@ -18,9 +18,6 @@ import java.util.logging.Logger;
  {  // begin class
  	
     // *********** class constants **********
-
-     
-
     // ********** instance variable **********
 
      private Connection connection; 
@@ -78,5 +75,5 @@ import java.util.logging.Logger;
         return loginVerified;
     }//end of validateLogin
     
-
+    
  }  // end class

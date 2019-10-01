@@ -9,7 +9,10 @@
  * @author shaemcfadden
  */
 public class Store extends javax.swing.JFrame {
-
+    
+    private Controller controller;
+    private LogIn loginUI;
+    
     /**
      * Creates new form Store
      */
@@ -26,21 +29,69 @@ public class Store extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        storePane = new javax.swing.JPanel();
+        cartButton = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Store");
+
+        storePane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        cartButton.setText("Shopping Cart");
+        cartButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cartButtonActionPerformed(evt);
+            }
+        });
+
+        logoutButton.setText("Log Out");
+
+        javax.swing.GroupLayout storePaneLayout = new javax.swing.GroupLayout(storePane);
+        storePane.setLayout(storePaneLayout);
+        storePaneLayout.setHorizontalGroup(
+            storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(storePaneLayout.createSequentialGroup()
+                .addContainerGap(396, Short.MAX_VALUE)
+                .addGroup(storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(logoutButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cartButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+        );
+        storePaneLayout.setVerticalGroup(
+            storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, storePaneLayout.createSequentialGroup()
+                .addContainerGap(266, Short.MAX_VALUE)
+                .addComponent(cartButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(logoutButton)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(storePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(storePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartButtonActionPerformed
+        storePane.setVisible(false);
+        
+    }//GEN-LAST:event_cartButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -77,6 +128,27 @@ public class Store extends javax.swing.JFrame {
         });
     }
 
+    /*
+    Purpose: set the store UI's controller
+    In: Object to be set as the controller
+    Out: none
+    */
+    public void setController(Controller c){
+        controller = c;
+    }//end of setController
+    
+    /*
+    Purpose: set the store UI's login UI
+    In: Object to be set as store UI
+    Out: none
+    */
+    public void setloginUI(LogIn l){
+        loginUI = l;
+    }//end of setLoginUI
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cartButton;
+    private javax.swing.JButton logoutButton;
+    private javax.swing.JPanel storePane;
     // End of variables declaration//GEN-END:variables
 }

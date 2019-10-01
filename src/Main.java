@@ -31,6 +31,7 @@ public class Main {  // begin class
         
         Controller control = new Controller();
         LogIn loginUI = new LogIn();
+        Store storeUI = new Store();
         
 	// ***** Print Banner *****
 	
@@ -43,13 +44,17 @@ public class Main {  // begin class
 	// ***** processing *****
 	
 		control.establishConnection(url, user, pass);
+                
                 loginUI.setController(control);
+                loginUI.setStoreUI(storeUI);
                 loginUI.setVisible(true);
                 
+                storeUI.setController(control);
+                storeUI.setloginUI(loginUI);
                 
 	// ***** closing message *****
 	
-		System.out.println("end of set up");
+		System.out.println("END OF SET UP ROUTINE");
 	
 	}  // end main	
 }  // end class

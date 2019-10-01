@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public class LogIn extends javax.swing.JFrame {
     
     private Controller controller;
+    private Store storeUI;
     
     /**
      * Creates new form LogIn
@@ -39,7 +40,7 @@ public class LogIn extends javax.swing.JFrame {
         usernameLabel = new javax.swing.JLabel();
         usernameText = new javax.swing.JTextField();
         passwordLabel = new javax.swing.JLabel();
-        passwordText = new javax.swing.JTextField();
+        passwordText = new javax.swing.JPasswordField();
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -70,12 +71,13 @@ public class LogIn extends javax.swing.JFrame {
 
         passwordLabel.setText("Password");
 
-        passwordText.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(loginButton)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -88,9 +90,6 @@ public class LogIn extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(passwordText))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(loginButton)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,8 +103,8 @@ public class LogIn extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(passwordLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(passwordText, javax.swing.GroupLayout.PREFERRED_SIZE, 21, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addComponent(passwordText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addComponent(loginButton)
                 .addContainerGap())
         );
@@ -116,7 +115,7 @@ public class LogIn extends javax.swing.JFrame {
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         boolean validated = false;
         String user = usernameText.getText();
-        String pass = passwordText.getText();
+        String pass = new String(passwordText.getPassword());
         
         try {
             validated = controller.validateLogin(user, pass);
@@ -125,12 +124,12 @@ public class LogIn extends javax.swing.JFrame {
         }//end of catch
         
         if (validated) {
-            System.out.println("Log In Successful");
+            System.out.println("LOG IN SUCCESSFUL");
             this.setVisible(false);
-            
+            storeUI.setVisible(true);
         }//end of if log in successful
         else{
-            System.out.println("Log in Failed");
+            System.out.println("LOG IN FAILED");
             usernameText.setText("");
             passwordText.setText("");
             loginButton.setText("Log In Failed Try Again");
@@ -173,7 +172,7 @@ public class LogIn extends javax.swing.JFrame {
     }
 
     /*
-    Purpose: set the UI's controller
+    Purpose: set the log in UI's controller
     In: Object to be set as the controller
     Out: none
     */
@@ -181,11 +180,20 @@ public class LogIn extends javax.swing.JFrame {
         controller = c;
     }//end of setController
     
+    /*
+    Purpose: set the log in UI's store UI
+    In: Object to be set as store UI
+    Out: none
+    */
+    public void setStoreUI(Store s){
+        storeUI = s;
+    }//end of setStoreUI
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel passwordLabel;
-    private javax.swing.JTextField passwordText;
+    private javax.swing.JPasswordField passwordText;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JTextField usernameText;
