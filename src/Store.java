@@ -249,6 +249,7 @@ public class Store extends javax.swing.JFrame {
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
         //takes selected item and parses the id from it
         int id = Integer.parseInt(displayList.getSelectedValue().split(":")[0]);
+        selectedID = id;
         
         try {
             this.loadItemList(id);
