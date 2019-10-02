@@ -13,8 +13,9 @@ public class Store extends javax.swing.JFrame {
     private Controller controller;
     private LogIn loginUI;
     private DefaultListModel storeListModel = new DefaultListModel();
+    private DefaultListModel cartListModel = new DefaultListModel();
     private boolean selected = false;
-    private String selectedItemId = "";
+    private int selectedID = 0;
     /**
      * Creates new form Store
      */
@@ -143,6 +144,7 @@ public class Store extends javax.swing.JFrame {
 
         purchaseButton.setText("Purchase");
 
+        cartList.setModel(cartListModel);
         jScrollPane4.setViewportView(cartList);
 
         javax.swing.GroupLayout cartPaneLayout = new javax.swing.GroupLayout(cartPane);
@@ -234,6 +236,14 @@ public class Store extends javax.swing.JFrame {
                 System.out.println("REFRESH FAILED");
             }
         }//end of if not selected
+        else{
+            try {
+                this.loadItemList(selectedID);
+            } catch (SQLException ex) {
+                System.out.println("SELECTED REFRESH FAILED");
+            }//end of catch  
+        }//end of else selected
+        
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
@@ -246,6 +256,7 @@ public class Store extends javax.swing.JFrame {
             System.out.println("LOADING ITEM INFO FAILED");
         }//end of catch
         
+        selected = true;
         backButton.setEnabled(true);
         selectButton.setEnabled(false);
     }//GEN-LAST:event_selectButtonActionPerformed
@@ -255,8 +266,9 @@ public class Store extends javax.swing.JFrame {
             this.loadProductList();
         } catch (SQLException ex) {
             System.out.println("BACK BUTTON LOAD FAILED");
-        }
+        }//end of catch
         
+        selected = false;
         backButton.setEnabled(false);
         selectButton.setEnabled(true);
     }//GEN-LAST:event_backButtonActionPerformed
@@ -330,6 +342,23 @@ public class Store extends javax.swing.JFrame {
         }//end of for loop
         
     }//end of loadProductList
+    
+    /*
+    Purpose: load cart list in the store
+    In: None
+    Out: None
+    */
+    public void loadCartList() throws SQLException{
+        cartListModel.removeAllElements();
+        
+        String[] cart = new String[controller.getNumberofProducts(false)];
+        cart = controller.getCartInfo(cart.length);
+        
+        for(int i = 0; i < cart.length; i++){
+            cartListModel.addElement(cart[i]);
+        }//end of for loop
+        
+    }//end of loadCartList
     
     /*
     Purpose: load item list in the store

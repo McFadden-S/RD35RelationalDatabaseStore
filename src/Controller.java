@@ -133,6 +133,35 @@ import java.util.logging.Logger;
     }//end of getProductInfo
     
     /*
+    Purpose: Sends a string array with the information for each product
+    In: none
+    Out: String[] product info
+    */
+    public String[] getCartInfo(int numOfProd) throws SQLException{
+        String[] info = new String[numOfProd]; 
+        
+        Statement stmt = connection.createStatement();
+        Statement stmt2 = connection.createStatement();
+        String query = "select idProduct, quantity from Cart where username = \"" + currentUser +  "\"";
+        ResultSet rs = stmt.executeQuery(query);
+        ResultSet name;
+        
+        for(int i = 0; i < info.length; i++){ 
+           rs.absolute(i+1);
+           
+           query = "select name from Products where idProducts =" + rs.getInt(1);
+           name = stmt2.executeQuery(query);
+           name.absolute(1);
+           
+           info[i]=rs.getInt(1) + ": ";
+           info[i]+=name.getString(1) + " x";
+           info[i]+=rs.getInt(2);
+        }//end of for loop
+            
+        return info;
+    }//end of getCartInfo
+    
+    /*
     Purpose: get the number of columns offered by table in database
     In: table title
     Out: (int) number of columns

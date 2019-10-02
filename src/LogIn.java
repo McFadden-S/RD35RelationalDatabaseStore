@@ -129,6 +129,7 @@ public class LogIn extends javax.swing.JFrame {
             this.setVisible(false);
             try {
                 storeUI.loadProductList();
+                storeUI.loadCartList();
             } catch (SQLException ex) {
                 System.out.println("STORE SET UP FAILED");
             }//end of catch set up failed
