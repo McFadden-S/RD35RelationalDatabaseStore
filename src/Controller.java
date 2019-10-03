@@ -100,13 +100,13 @@ import java.util.logging.Logger;
             query = "select idProducts from Products";
             rs = stmt.executeQuery(query);
             rs.last();
-            num=rs.getRow();
+            num=rs.getInt(1);
         }//end of if offered
         else{
-            query = "select idCart from Cart";
+            query = "select count(*) from Cart where username = \"" + currentUser + "\"";
             rs = stmt.executeQuery(query);
-            rs.last();
-            num=rs.getRow();
+            rs.absolute(1);
+            num=rs.getInt(1);
         }//end of else in cart
         
         return num;
@@ -146,16 +146,21 @@ import java.util.logging.Logger;
         ResultSet rs = stmt.executeQuery(query);
         ResultSet name;
         
+        double price = 0;
+        
         for(int i = 0; i < info.length; i++){ 
            rs.absolute(i+1);
            
-           query = "select name from Products where idProducts =" + rs.getInt(1);
+           query = "select name, price from Products where idProducts = " + rs.getInt(1);
            name = stmt2.executeQuery(query);
            name.absolute(1);
            
+           price = rs.getInt(2) * name.getDouble(2);
+           
            info[i]=rs.getInt(1) + ": ";
            info[i]+=name.getString(1) + " x";
-           info[i]+=rs.getInt(2);
+           info[i]+=rs.getInt(2) + " = $";
+           info[i]+=price + "";
         }//end of for loop
             
         return info;
@@ -198,5 +203,36 @@ import java.util.logging.Logger;
             
         return info;
     }//end of getItemInfo
+    
+    /*
+    Purpose: add item to cart 
+    In: selected item id, quantity to be added
+    Out: None
+    */
+    public void addToCart(int id, int addedQuantity) throws SQLException{
+        Statement stmtQuantityFind = connection.createStatement();
+        Statement stmtAdd = connection.createStatement();
+        
+        String queryQuantityFind = "select idCart, quantity from Cart where idProduct = " + id + 
+                " and username = \"" + currentUser + "\"";
+        String queryAdd = "";
+        
+        ResultSet rsQuantity = stmtQuantityFind.executeQuery(queryQuantityFind);
+        boolean repeatedAdd = rsQuantity.absolute(1);
+        
+        if(!repeatedAdd){
+            queryAdd = "insert into Cart (username, idProduct, quantity) values "
+                + "(\"" + currentUser + "\", " + id + ", " + addedQuantity + ")";
+            stmtAdd.execute(queryAdd);
+        }//end of if not added
+        else{
+            int quantity = rsQuantity.getInt(2) + addedQuantity;
+            int idCart = rsQuantity.getInt(1);
+            
+            queryAdd = "update Cart set quantity = " + quantity + " where idCart = "
+                    + idCart;
+            stmtAdd.execute(queryAdd);
+        }//end of else quantity already exist
+    }//end of addToCart
     
  }  // end class

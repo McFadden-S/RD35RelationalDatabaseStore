@@ -44,6 +44,8 @@ public class Store extends javax.swing.JFrame {
         addCartButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
         refreshButton = new javax.swing.JButton();
+        quantitySpinner = new javax.swing.JSpinner(new javax.swing.SpinnerNumberModel(1, 1, 1000, 1));
+        quantityLabel = new javax.swing.JLabel();
         cartPane = new javax.swing.JPanel();
         removeCartButton = new javax.swing.JButton();
         purchaseButton = new javax.swing.JButton();
@@ -69,7 +71,9 @@ public class Store extends javax.swing.JFrame {
 
         displayList.setModel(storeListModel);
         displayList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        displayList.setSelectedIndex(1);
         jScrollPane1.setViewportView(displayList);
+        displayList.getAccessibleContext().setAccessibleParent(storePane);
 
         jScrollPane2.setViewportView(jScrollPane1);
 
@@ -81,6 +85,12 @@ public class Store extends javax.swing.JFrame {
         });
 
         addCartButton.setText("Add To Cart");
+        addCartButton.setEnabled(false);
+        addCartButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCartButtonActionPerformed(evt);
+            }
+        });
 
         backButton.setText("Back");
         backButton.setEnabled(false);
@@ -97,6 +107,12 @@ public class Store extends javax.swing.JFrame {
             }
         });
 
+        quantitySpinner.setToolTipText("");
+        quantitySpinner.setEnabled(false);
+
+        quantityLabel.setText("Quantity");
+        quantityLabel.setEnabled(false);
+
         javax.swing.GroupLayout storePaneLayout = new javax.swing.GroupLayout(storePane);
         storePane.setLayout(storePaneLayout);
         storePaneLayout.setHorizontalGroup(
@@ -111,7 +127,9 @@ public class Store extends javax.swing.JFrame {
                             .addComponent(selectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(addCartButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
-                            .addComponent(refreshButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(refreshButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(quantitySpinner, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(quantityLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(storePaneLayout.createSequentialGroup()
                         .addComponent(productLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -126,10 +144,14 @@ public class Store extends javax.swing.JFrame {
                 .addGroup(storePaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(storePaneLayout.createSequentialGroup()
                         .addComponent(refreshButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(selectButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(backButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(quantityLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(quantitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(addCartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE))
@@ -247,7 +269,7 @@ public class Store extends javax.swing.JFrame {
     }//GEN-LAST:event_refreshButtonActionPerformed
 
     private void selectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectButtonActionPerformed
-        //takes selected item and parses the id from it
+       if (displayList.getSelectedIndex()!=-1){
         int id = Integer.parseInt(displayList.getSelectedValue().split(":")[0]);
         selectedID = id;
         
@@ -258,8 +280,12 @@ public class Store extends javax.swing.JFrame {
         }//end of catch
         
         selected = true;
-        backButton.setEnabled(true);
-        selectButton.setEnabled(false);
+        backButton.setEnabled(selected);
+        addCartButton.setEnabled(selected);
+        quantityLabel.setEnabled(selected);
+        quantitySpinner.setEnabled(selected);
+        selectButton.setEnabled(!selected);
+       }//end of if selection made
     }//GEN-LAST:event_selectButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
@@ -270,9 +296,25 @@ public class Store extends javax.swing.JFrame {
         }//end of catch
         
         selected = false;
-        backButton.setEnabled(false);
-        selectButton.setEnabled(true);
+        backButton.setEnabled(selected);
+        addCartButton.setEnabled(selected);
+        quantityLabel.setEnabled(selected);
+        quantitySpinner.setEnabled(selected);
+        selectButton.setEnabled(!selected);
     }//GEN-LAST:event_backButtonActionPerformed
+
+    private void addCartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCartButtonActionPerformed
+        int quantity = (Integer) quantitySpinner.getValue();
+        
+        try {
+            controller.addToCart(selectedID, quantity);
+            this.loadCartList();
+        } catch (SQLException ex) {
+            System.out.println("ADD TO CART FAILED");
+        }//end of catch
+        
+        quantitySpinner.setValue(1);
+    }//GEN-LAST:event_addCartButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -393,6 +435,8 @@ public class Store extends javax.swing.JFrame {
     private javax.swing.JButton logoutButton;
     private javax.swing.JLabel productLabel;
     private javax.swing.JButton purchaseButton;
+    private javax.swing.JLabel quantityLabel;
+    private javax.swing.JSpinner quantitySpinner;
     private javax.swing.JButton refreshButton;
     private javax.swing.JButton removeCartButton;
     private javax.swing.JButton selectButton;
