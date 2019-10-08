@@ -170,6 +170,11 @@ public class Store extends javax.swing.JFrame {
         });
 
         purchaseButton.setText("Purchase");
+        purchaseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                purchaseButtonActionPerformed(evt);
+            }
+        });
 
         cartList.setModel(cartListModel);
         jScrollPane4.setViewportView(cartList);
@@ -335,6 +340,32 @@ public class Store extends javax.swing.JFrame {
             }//end of catch
         }//end of if cart item selected
     }//GEN-LAST:event_removeCartButtonActionPerformed
+
+    private void purchaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_purchaseButtonActionPerformed
+        int length = cartList.getModel().getSize();
+        int[][] cartInfo = new int[length][2]; 
+        boolean check = true;
+        
+        for(int i = 0; i<cartInfo.length && check; i++){
+            cartList.setSelectedIndex(i);
+            
+            //stores id value
+            String[] info = cartList.getSelectedValue().split(":");
+            cartInfo[i][0] = Integer.parseInt(info[0]);
+            
+            //stores quantity value
+            info = info[1].split("x");
+            info = info[info.length-1].split(" ");
+            cartInfo[i][1] = Integer.parseInt(info[0]);
+            
+            try {
+                check = controller.checkAvailability(cartInfo[i][0], cartInfo[i][1]);
+            } catch (SQLException ex) {
+                System.out.println("AVAILABILITY CHECKING FAILED");
+            }//end of check
+        }//end of end of list loop
+        
+    }//GEN-LAST:event_purchaseButtonActionPerformed
 
     /**
      * @param args the command line arguments

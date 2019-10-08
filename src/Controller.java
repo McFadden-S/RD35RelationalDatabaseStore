@@ -239,6 +239,28 @@ import java.util.logging.Logger;
             queryChange = "delete from Cart where idCart = \"" + idCart + "\"";
             stmtChange.execute(queryChange);
         }//end of else remove from cart list
-    }//end of addToCart
+    }//end of chagneCart
+    
+    /*
+    Purpose: checks the number of products requested is available
+    In: product id and quantity both int
+    Out: boolean true if available 
+    */
+    public boolean checkAvailability(int id, int quantity) throws SQLException{
+        boolean available = false;
+        
+        Statement stmtQuantity = connection.createStatement();
+        String queryQuantity = "select stock from Products where idProducts = "
+                + id;
+        
+        ResultSet rs = stmtQuantity.executeQuery(queryQuantity);
+        rs.absolute(1);
+        
+        rs.getInt(1);
+        
+        available = rs.getInt(1) >= quantity;
+        
+        return available;
+    }//end of checkAvailability
     
  }  // end class
