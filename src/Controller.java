@@ -206,33 +206,39 @@ import java.util.logging.Logger;
     
     /*
     Purpose: add item to cart 
-    In: selected item id, quantity to be added
+    In: selected item id, quantity to be added/removed, negative to remove
     Out: None
     */
-    public void addToCart(int id, int addedQuantity) throws SQLException{
+    public void changeCart(int id, int addedQuantity) throws SQLException{
         Statement stmtQuantityFind = connection.createStatement();
-        Statement stmtAdd = connection.createStatement();
+        Statement stmtChange = connection.createStatement();
         
         String queryQuantityFind = "select idCart, quantity from Cart where idProduct = " + id + 
                 " and username = \"" + currentUser + "\"";
-        String queryAdd = "";
+        String queryChange = "";
         
         ResultSet rsQuantity = stmtQuantityFind.executeQuery(queryQuantityFind);
         boolean repeatedAdd = rsQuantity.absolute(1);
         
         if(!repeatedAdd){
-            queryAdd = "insert into Cart (username, idProduct, quantity) values "
+            queryChange = "insert into Cart (username, idProduct, quantity) values "
                 + "(\"" + currentUser + "\", " + id + ", " + addedQuantity + ")";
-            stmtAdd.execute(queryAdd);
+            stmtChange.execute(queryChange);
         }//end of if not added
-        else{
+        else if((rsQuantity.getInt(2)+addedQuantity)>0){
             int quantity = rsQuantity.getInt(2) + addedQuantity;
             int idCart = rsQuantity.getInt(1);
             
-            queryAdd = "update Cart set quantity = " + quantity + " where idCart = "
+            queryChange = "update Cart set quantity = " + quantity + " where idCart = "
                     + idCart;
-            stmtAdd.execute(queryAdd);
-        }//end of else quantity already exist
+            stmtChange.execute(queryChange);
+        }//end of else quantity already exist and change is greater then zero
+        else{
+            int idCart = rsQuantity.getInt(1);
+            
+            queryChange = "delete from Cart where idCart = \"" + idCart + "\"";
+            stmtChange.execute(queryChange);
+        }//end of else remove from cart list
     }//end of addToCart
     
  }  // end class

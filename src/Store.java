@@ -163,6 +163,11 @@ public class Store extends javax.swing.JFrame {
         cartPane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         removeCartButton.setText("Remove From Cart");
+        removeCartButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeCartButtonActionPerformed(evt);
+            }
+        });
 
         purchaseButton.setText("Purchase");
 
@@ -307,7 +312,7 @@ public class Store extends javax.swing.JFrame {
         int quantity = (Integer) quantitySpinner.getValue();
         
         try {
-            controller.addToCart(selectedID, quantity);
+            controller.changeCart(selectedID, quantity);
             this.loadCartList();
         } catch (SQLException ex) {
             System.out.println("ADD TO CART FAILED");
@@ -315,6 +320,21 @@ public class Store extends javax.swing.JFrame {
         
         quantitySpinner.setValue(1);
     }//GEN-LAST:event_addCartButtonActionPerformed
+
+    private void removeCartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeCartButtonActionPerformed
+        if (cartList.getSelectedIndex()!=-1){
+            int quantity = -1;
+            int id = Integer.parseInt(cartList.getSelectedValue().split(":")[0]);
+            selectedID = id;
+
+            try {
+                controller.changeCart(selectedID, quantity);
+                this.loadCartList();
+            } catch (SQLException ex) {
+                System.out.println("REMOVE FROM CART FAILED");
+            }//end of catch
+        }//end of if cart item selected
+    }//GEN-LAST:event_removeCartButtonActionPerformed
 
     /**
      * @param args the command line arguments
