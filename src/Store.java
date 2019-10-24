@@ -3,6 +3,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -363,7 +364,33 @@ public class Store extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 System.out.println("AVAILABILITY CHECKING FAILED");
             }//end of check
+            
+            if(!check){
+                
+                int stock = 0;
+                
+                try {
+                    stock = controller.checkStock(cartInfo[i][0]);
+                } catch (SQLException ex) {
+                    System.out.println("GET STOCK VALUE FAILED");
+                }//end of catch SQLexception
+                
+                int dialog = JOptionPane.showConfirmDialog(null, 
+                        "You have ordered more then there are available would you"
+                                + " like to order the max availabe(yes) or "
+                                + "cancel item order(no): " + stock, "WARNING", 
+                                JOptionPane.YES_NO_OPTION);
+                
+                if(dialog == JOptionPane.NO_OPTION){
+                    stock = 0;
+                }//end of if cancel order
+                
+                cartInfo[i][1] = stock;
+            }//end of if more then available
+            
         }//end of end of list loop
+        
+        
         
     }//GEN-LAST:event_purchaseButtonActionPerformed
 

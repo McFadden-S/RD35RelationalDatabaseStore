@@ -256,11 +256,29 @@ import java.util.logging.Logger;
         ResultSet rs = stmtQuantity.executeQuery(queryQuantity);
         rs.absolute(1);
         
-        rs.getInt(1);
-        
         available = rs.getInt(1) >= quantity;
         
         return available;
     }//end of checkAvailability
+    
+    /*
+    Purpose: checks the available stock of an item
+    In: item id
+    Out: quantity
+    */
+    public int checkStock(int id) throws SQLException{
+        int stock = 0;
+        
+        Statement stmtStock = connection.createStatement();
+        String queryStock = "SELECT stock FROM mydb.Products where idProducts "
+                + "= " + id;
+        
+        ResultSet rs = stmtStock.executeQuery(queryStock);
+        rs.absolute(1);
+        
+        stock = rs.getInt(1);
+        
+        return stock;
+    }//end of checkStock
     
  }  // end class
