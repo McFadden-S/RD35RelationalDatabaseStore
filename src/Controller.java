@@ -281,4 +281,30 @@ import java.util.logging.Logger;
         return stock;
     }//end of checkStock
     
+    /*
+    Purpose: Add a row to the transactions table with all required information
+    In: item id, quantity
+    Out: none
+    */
+    public void addTransaction(int id, int quantity) throws SQLException{
+        Statement stmtDT = connection.createStatement();
+        Statement stmtTransaction = connection.createStatement();
+        Statement stmtStockChange = connection.createStatement();
+        
+        String queryDateTime = "Select Now()";
+        ResultSet rs = stmtDT.executeQuery(queryDateTime);
+        rs.absolute(1);
+        String dateTime = rs.getString(1);
+        
+        String queryTransaction = "insert into Transactions (user, product, quantity, "
+                + "transactionTime) values " + "(\"" + currentUser + "\", " + id 
+                + ", " + quantity + ", \"" + dateTime + "\" )";
+        stmtTransaction.execute(queryTransaction);
+        
+        String queryStockChange = "update Products set stock = " 
+                + (checkStock(id)-quantity) + " where idProducts = "
+                + id;
+        stmtStockChange.execute(queryStockChange);
+        
+    }//end of addTransaction
  }  // end class

@@ -346,9 +346,10 @@ public class Store extends javax.swing.JFrame {
         int length = cartList.getModel().getSize();
         int[][] cartInfo = new int[length][2]; 
         boolean check = true;
+        int purchaseAmount = 0;
         
         for(int i = 0; i<cartInfo.length && check; i++){
-            cartList.setSelectedIndex(i);
+            cartList.setSelectedIndex(0);
             
             //stores id value
             String[] info = cartList.getSelectedValue().split(":");
@@ -367,10 +368,8 @@ public class Store extends javax.swing.JFrame {
             
             if(!check){
                 
-                int stock = 0;
-                
                 try {
-                    stock = controller.checkStock(cartInfo[i][0]);
+                    purchaseAmount = controller.checkStock(cartInfo[i][0]);
                 } catch (SQLException ex) {
                     System.out.println("GET STOCK VALUE FAILED");
                 }//end of catch SQLexception
@@ -378,19 +377,32 @@ public class Store extends javax.swing.JFrame {
                 int dialog = JOptionPane.showConfirmDialog(null, 
                         "You have ordered more then there are available would you"
                                 + " like to order the max availabe(yes) or "
-                                + "cancel item order(no): " + stock, "WARNING", 
+                                + "cancel item order(no): " + purchaseAmount, "WARNING", 
                                 JOptionPane.YES_NO_OPTION);
                 
                 if(dialog == JOptionPane.NO_OPTION){
-                    stock = 0;
+                    purchaseAmount = 0;
                 }//end of if cancel order
                 
-                cartInfo[i][1] = stock;
             }//end of if more then available
+            else{
+                purchaseAmount = cartInfo[i][1];
+            }//else, hence check== true
             
-        }//end of end of list loop
-        
-        
+            try {
+                controller.changeCart(cartInfo[i][0], -cartInfo[i][1]);
+                
+                if(purchaseAmount != 0){
+                controller.addTransaction(cartInfo[i][0], purchaseAmount);
+                }//end of if item purchased
+                
+                loadCartList();
+            } catch (SQLException ex) {
+                System.out.println("TRANSACTION FAILED");
+            }//end of catch failed transaction
+            
+            
+        }//end of end of list loop     
         
     }//GEN-LAST:event_purchaseButtonActionPerformed
 
